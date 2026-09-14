@@ -484,7 +484,7 @@ void I_GetEvent(void)
                 // deliberate fall-though
 
             case SDL_KEYUP:
-		I_HandleKeyboardEvent(&sdlevent);
+		        I_HandleKeyboardEvent(&sdlevent);
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
@@ -494,6 +494,15 @@ void I_GetEvent(void)
                 {
                     I_HandleMouseEvent(&sdlevent);
                 }
+                break;
+            case SDL_FINGERDOWN:
+                I_TouchTrackerFingerDown(&sdlevent.tfinger);
+                break;
+            case SDL_FINGERMOTION:
+                I_TouchTrackerFingerMotion(&sdlevent.tfinger);
+                break;
+            case SDL_FINGERUP:
+                I_TouchTrackerFingerUp(&sdlevent.tfinger);
                 break;
 
             case SDL_QUIT:
