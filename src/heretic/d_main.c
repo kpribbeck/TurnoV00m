@@ -32,6 +32,7 @@
 #include "i_endoom.h"
 #include "i_input.h"
 #include "i_joystick.h"
+#include "i_touch.h"
 #include "i_sound.h"
 #include "i_swap.h" // [crispy] SHORT()
 #include "i_system.h"

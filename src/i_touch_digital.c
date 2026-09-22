@@ -4,6 +4,7 @@
 #include "doomtype.h"
 #include "d_event.h"
 #include "m_controls.h"
+#include "i_touch.h"
 #include "i_touch_zone.h"
 #include "i_touch_tracker.h"
 #include "i_touch_digital.h"
@@ -33,7 +34,7 @@ static const digital_binding_t g_bindings[] =
     { TZONE_USE,            &key_use        },
     { TZONE_WEAPON_PREV,    &key_prevweapon },
     { TZONE_WEAPON_NEXT,    &key_nextweapon },
-    { TZONE_MAP,            &key_map        },
+    { TZONE_MAP,            &key_map_toggle },
     { TZONE_PAUSE,          &key_pause      },
 };
 
@@ -73,15 +74,13 @@ static void PostKey(evtype_t type, int key)
 //                                 API
 /////////////////////////////////////////////////////////////////////////////
 
-void I_InitTouchDigital(void)
+void I_TouchDigitalInit(void)
 {
     memset(prev_pressed, 0, sizeof(prev_pressed));
 }
 
-void I_TouchDigitalUpdate(void)
+void I_UpdateTouchDigital(void)
 {
-    if (!usetouch) return;
-
     for (int i = 0; i < NUM_BINDINGS; i++)
     {
         boolean now = I_TouchTrackerZoneIsPressed(g_bindings[i].zone_id);

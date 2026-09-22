@@ -547,7 +547,7 @@ void I_StartTic (void)
 
     if (window_focused)
     {
-        I_UpdateTouchDigital();
+        I_UpdateTouch();
     }
 
     if (joywait < I_GetTime())

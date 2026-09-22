@@ -57,6 +57,7 @@
 #include "i_endoom.h"
 #include "i_input.h"
 #include "i_joystick.h"
+#include "i_touch.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "i_video.h"

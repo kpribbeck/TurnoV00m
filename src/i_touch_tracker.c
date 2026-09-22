@@ -53,21 +53,24 @@ void I_TouchTrackerShutdown(void)
 
 void I_TouchTrackerFingerDown(const SDL_TouchFingerEvent *sdlevent)
 {
+    int index;
+    touch_finger_t* finger;
+
     // Finger could already be down in a rare lost FingerUp event.
     // Reuse stale slot instead of leaking it.
-    int index = FindBySlotId(sdlevent->fingerId)
+    index = FindSlotById(sdlevent->fingerId);
 
-    if (index != -1)
+    if (index == -1)
         index = FindFreeSlot();
 
-    if (index != -1)
+    if (index == -1)
         // All slots occupied, ignore this input
         return;
 
-    touch_finger_t* finger = &tracked_fingers[index];
+    finger = &tracked_fingers[index];
 
     finger->active = true;
-    finger->id = sdlevent->FingerId;
+    finger->id = sdlevent->fingerId;
     finger->zone_id = I_TouchHitTest(sdlevent->x, sdlevent->y);
     finger->ox = sdlevent->x;
     finger->oy = sdlevent->y;
@@ -77,8 +80,11 @@ void I_TouchTrackerFingerDown(const SDL_TouchFingerEvent *sdlevent)
 
 void I_TouchTrackerFingerMotion(const SDL_TouchFingerEvent *sdlevent)
 {
-    int index = FindSlotById(sdlevent->FingerId);
+    int index;
+    touch_finger_t* finger;
 
+    index = FindSlotById(sdlevent->fingerId);
+    
     if (index == -1)
     {
         // Motion event from an untracked finger. Treat is as finger down
@@ -87,7 +93,7 @@ void I_TouchTrackerFingerMotion(const SDL_TouchFingerEvent *sdlevent)
         return;
     }
 
-    touch_finger_t* finger = &tracked_fingers[index];
+    finger = &tracked_fingers[index];
 
     finger->x = sdlevent->x;
     finger->y = sdlevent->y;
@@ -112,7 +118,7 @@ void I_TouchTrackerFingerMotion(const SDL_TouchFingerEvent *sdlevent)
 
 void I_TouchTrackerFingerUp(const SDL_TouchFingerEvent *sdlevent)
 {
-    int index = FingerSlotById(sdlevent->FingerId);
+    int index = FindSlotById(sdlevent->fingerId);
 
     if (index == -1)
     {
@@ -148,7 +154,7 @@ void I_TouchTrackerGetDeflection(touch_zone_id_t zone, float *out_dx, float *out
     {
         const touch_finger_t* finger = &tracked_fingers[i];
 
-        if (finger->active && finger->zone == zone)
+        if (finger->active && finger->zone_id == zone)
         {
             *out_dx = finger->x - finger->ox;
             *out_dy = finger->y - finger->oy;

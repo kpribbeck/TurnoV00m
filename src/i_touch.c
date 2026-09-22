@@ -3,6 +3,7 @@
 #include "m_config.h"
 #include "i_touch_tracker.h"
 #include "i_touch_zone.h"
+#include "i_touch_digital.h"
 #include "i_touch.h"
 
 int usetouch = 1;
@@ -22,18 +23,26 @@ void I_InitTouch(void)
     // config variable binding
 }
 
-void I_HandleTouchEvent(const SDL_Event* ev)
+void I_UpdateTouch(void)
 {
-    switch(ev->type)
+    if (!usetouch) return;
+
+    I_UpdateTouchDigital();
+    // TODO: I_UpdateTouchAnalog();
+}
+
+void I_HandleTouchEvent(const SDL_Event* sdlevent)
+{
+    switch(sdlevent->type)
     {
         case SDL_FINGERDOWN:
-            I_TouchTrackerFingerDown(&sdlevent.tfinger);
+            I_TouchTrackerFingerDown(&sdlevent->tfinger);
             break;
         case SDL_FINGERMOTION:
-            I_TouchTrackerFingerMotion(&sdlevent.tfinger);
+            I_TouchTrackerFingerMotion(&sdlevent->tfinger);
             break;
         case SDL_FINGERUP:
-            I_TouchTrackerFingerUp(&sdlevent.tfinger);
+            I_TouchTrackerFingerUp(&sdlevent->tfinger);
             break;
         default:
             break;
