@@ -398,6 +398,7 @@ void D_BindVariables(void)
     I_BindInputVariables();
     I_BindVideoVariables();
     I_BindJoystickVariables();
+    I_BindTouchVariables();
     I_BindSoundVariables();
 
     M_BindBaseControls();
@@ -2126,6 +2127,7 @@ void D_DoomMain (void)
     I_CheckIsScreensaver();
     I_InitTimer();
     I_InitJoystick();
+    I_InitTouch();
     I_InitSound(doom);
     I_InitMusic();
 

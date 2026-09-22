@@ -853,6 +853,7 @@ void D_BindVariables(void)
     I_BindInputVariables();
     I_BindVideoVariables();
     I_BindJoystickVariables();
+    I_BindTouchVariables();
     I_BindSoundVariables();
 
     M_BindBaseControls();

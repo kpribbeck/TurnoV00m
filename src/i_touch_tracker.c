@@ -45,6 +45,12 @@ void I_TouchTrackerInit(void)
     memset(tracked_fingers, 0, sizeof(tracked_fingers));
 }
 
+void I_TouchTrackerShutdown(void)
+{
+    // No memory has been allocated, so just 0 out the tracked fingers state
+    memset(tracked_fingers, 0, sizeof(tracked_fingers));
+}
+
 void I_TouchTrackerFingerDown(const SDL_TouchFingerEvent *sdlevent)
 {
     // Finger could already be down in a rare lost FingerUp event.

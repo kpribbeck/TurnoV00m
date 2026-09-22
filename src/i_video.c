@@ -38,6 +38,7 @@
 #include "doomtype.h"
 #include "i_input.h"
 #include "i_joystick.h"
+#include "i_touch.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "i_video.h"
@@ -496,13 +497,9 @@ void I_GetEvent(void)
                 }
                 break;
             case SDL_FINGERDOWN:
-                I_TouchTrackerFingerDown(&sdlevent.tfinger);
-                break;
             case SDL_FINGERMOTION:
-                I_TouchTrackerFingerMotion(&sdlevent.tfinger);
-                break;
             case SDL_FINGERUP:
-                I_TouchTrackerFingerUp(&sdlevent.tfinger);
+                I_HandleTouchEvent(&sdlevent);
                 break;
 
             case SDL_QUIT:
@@ -546,6 +543,11 @@ void I_StartTic (void)
     if (usemouse && !nomouse && window_focused)
     {
         I_ReadMouse();
+    }
+
+    if (window_focused)
+    {
+        I_UpdateTouchDigital();
     }
 
     if (joywait < I_GetTime())

@@ -14,7 +14,7 @@
 // Data types
 typedef struct
 {
-    boolean active = false;
+    boolean active;
 
     SDL_FingerID id;
     touch_zone_id_t zone_id;
@@ -28,6 +28,7 @@ typedef struct
 } touch_finger_t;
 
 void I_TouchTrackerInit(void);
+void I_TouchTrackerShutdown(void);
 
 // Handlers
 // typedef struct SDL_TouchFingerEvent
