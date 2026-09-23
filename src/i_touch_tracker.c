@@ -84,7 +84,7 @@ void I_TouchTrackerFingerMotion(const SDL_TouchFingerEvent *sdlevent)
     touch_finger_t* finger;
 
     index = FindSlotById(sdlevent->fingerId);
-    
+
     if (index == -1)
     {
         // Motion event from an untracked finger. Treat is as finger down

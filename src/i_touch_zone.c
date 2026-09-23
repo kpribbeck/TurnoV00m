@@ -37,22 +37,27 @@
 // ---------------------------------------------------------------------------
 
 // Height of the top button bar (weapon prev/next, map, pause).
-#define TZ_TOP_H       0.15f
+#define TZ_TOP_H        0.15f
 
 // Right edge of the MOVE zone and left edge of the TURN zone.
 // MOVE spans [0.00, TZ_MOVE_W); TURN spans [TZ_MOVE_W, TZ_TURN_R).
-#define TZ_MOVE_W      0.35f
-#define TZ_TURN_R      0.70f   // right edge of TURN; left edge of action column
+#define TZ_MOVE_W       0.35f
+#define TZ_TURN_R       0.70f   // right edge of TURN; left edge of action column
 
 // Y coordinate that splits the right action column into USE (above) and
 // FIRE (below).
-#define TZ_ACTION_Y    0.55f
+#define TZ_ACTION_Y     0.55f
 
 // Top-bar button widths.  Buttons start at x=0 (left) and x=TZ_MAP_L (right).
-#define TZ_WPREV_W     0.18f
-#define TZ_WNEXT_W     0.18f
-#define TZ_MAP_L       0.72f   // left edge of map button
-#define TZ_PAUSE_L     0.86f   // left edge of pause button
+#define TZ_WPREV_W      0.18f
+#define TZ_WNEXT_W      0.18f
+#define TZ_MAP_L        0.72f   // left edge of map button
+#define TZ_PAUSE_L      0.86f   // left edge of pause button
+
+#define TZ_MENU_UP_X    0.1f
+#define TZ_MENU_UP_Y    0.5f
+#define TZ_MENU_UP_H    0.25f
+#define TZ_MENU_UP_W    0.2f
 
 
 // ---------------------------------------------------------------------------
@@ -157,6 +162,50 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
         .y          = 0.00f,
         .width          = 1.00f - TZ_PAUSE_L,
         .height          = TZ_TOP_H,
+        .label      = "PAUSE"
+    },
+
+    [TZONE_MENU_UP] =
+    {
+        .id         = TZONE_MENU_UP,
+        .input_type = TINPUT_BUTTON,
+        .x          = TZ_MENU_UP_X,
+        .y          = TZ_MENU_UP_Y,
+        .width          = TZ_MENU_UP_W,
+        .height          = TZ_MENU_UP_H,
+        .label      = "MENU_UP"
+    },
+
+    [TZONE_MENU_DOWN] =
+    {
+        .id         = TZONE_MENU_DOWN,
+        .input_type = TINPUT_BUTTON,
+        .x          = TZ_MENU_UP_X,
+        .y          = TZ_MENU_UP_Y + TZ_MENU_UP_H,
+        .width          = TZ_MENU_UP_W,
+        .height          = TZ_MENU_UP_H,
+        .label      = "MENU_DOWN"
+    },
+
+    [TZONE_MENU_CONFIRM] =
+    {
+        .id         = TZONE_MENU_CONFIRM,
+        .input_type = TINPUT_BUTTON,
+        .x          = 1 - TZ_MENU_UP_X - TZ_MENU_UP_W,
+        .y          = TZ_MENU_UP_Y,
+        .width          = TZ_MENU_UP_W,
+        .height          = TZ_MENU_UP_H,
+        .label      = "PAUSE"
+    },
+
+    [TZONE_MENU_BACK] =
+    {
+        .id         = TZONE_MENU_BACK,
+        .input_type = TINPUT_BUTTON,
+        .x          = 1 - TZ_MENU_UP_X - TZ_MENU_UP_W,
+        .y          = TZ_MENU_UP_Y + TZ_MENU_UP_H,
+        .width          = TZ_MENU_UP_W,
+        .height          = TZ_MENU_UP_H,
         .label      = "PAUSE"
     },
 };

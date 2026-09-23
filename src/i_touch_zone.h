@@ -55,6 +55,11 @@ typedef enum
     TZONE_MAP         =  6,    // toggle automap
     TZONE_PAUSE       =  7,    // pause / open menu
 
+    TZONE_MENU_UP     =  8,    // menu up direction
+    TZONE_MENU_DOWN   =  9,    // menu down direction
+    TZONE_MENU_CONFIRM=  10,   // menu confirm action
+    TZONE_MENU_BACK   =  11,   // menu back action
+
     TZONE_COUNT                // must remain last — equals the table length
 
 } touch_zone_id_t;

@@ -519,6 +519,12 @@ static default_t	doom_defaults_list[] =
     // If non-zero, joystick input is enabled.
     //
 
+    CONFIG_VARIABLE_INT(use_touch),
+
+    //!
+    // If non-zero, joystick input is enabled.
+    //
+
     CONFIG_VARIABLE_INT(use_joystick),
 
     //!

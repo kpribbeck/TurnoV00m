@@ -15,6 +15,9 @@ void I_BindTouchVariables(void)
 
 void I_InitTouch(void)
 {
+    // Disable simulated mouse events by touch input
+    SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
+
     I_TouchValidateLayout();
     I_TouchTrackerInit();
     I_TouchDigitalInit();

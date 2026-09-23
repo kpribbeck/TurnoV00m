@@ -30,15 +30,26 @@ typedef struct
 
 static const digital_binding_t g_bindings[] =
 {
-    { TZONE_FIRE,           &key_fire       },
-    { TZONE_USE,            &key_use        },
-    { TZONE_WEAPON_PREV,    &key_prevweapon },
-    { TZONE_WEAPON_NEXT,    &key_nextweapon },
-    { TZONE_MAP,            &key_map_toggle },
-    { TZONE_PAUSE,          &key_pause      },
+    { TZONE_FIRE,           &key_fire         },
+    { TZONE_USE,            &key_use          },
+    { TZONE_WEAPON_PREV,    &key_prevweapon   },
+    { TZONE_WEAPON_NEXT,    &key_nextweapon   },
+    { TZONE_MAP,            &key_map_toggle   },
+    { TZONE_PAUSE,          &key_pause        },
 };
 
+static const digital_binding_t g_menu_bindings[] =
+{
+    { TZONE_MENU_UP,        &key_menu_up      },
+    { TZONE_MENU_DOWN,      &key_menu_down    },
+    { TZONE_MENU_CONFIRM,   &key_menu_confirm },
+    { TZONE_MENU_BACK,      &key_menu_back    },
+};
+
+
 #define NUM_BINDINGS (int)(sizeof(g_bindings) / sizeof(g_bindings[0]))
+#define NUM_MENU_BINDINGS (int)(sizeof(g_menu_bindings) / sizeof(g_menu_bindings[0]))
+
 
 
 // ---------------------------------------------------------------------------
@@ -49,7 +60,11 @@ static const digital_binding_t g_bindings[] =
 // and falling edges that Doom's event model expects.
 // ---------------------------------------------------------------------------
 
+extern boolean menuactive;
+
 static boolean prev_pressed[NUM_BINDINGS];
+static boolean prev_pressed_menu[NUM_MENU_BINDINGS];
+static boolean prev_menuactive;
 
 
 // Internal helpers
@@ -74,26 +89,86 @@ static void PostKey(evtype_t type, int key)
 //                                 API
 /////////////////////////////////////////////////////////////////////////////
 
+static void I_OnMenuActiveChange(void)
+{
+    const digital_binding_t* bindings;
+    int count;
+    boolean* prev;
+
+    // We want to clear bindings no longer used
+    // If we go from Game -> Menu, then we need to clear Game bindings
+    // If we go from Menu -> Game, then we need to clear Menu bindings
+
+    // From Game to Menu
+    if (menuactive)
+    {
+        bindings = g_bindings;
+        count = NUM_BINDINGS;
+        prev = prev_pressed;        
+    }
+    else // From Menu to Game
+    {
+        bindings = g_menu_bindings;
+        count = NUM_MENU_BINDINGS;
+        prev = prev_pressed_menu;
+    }
+
+    // Release bindings
+    for (int i = 0; i < count; i++)
+    {
+        if (prev[i])
+        {
+            PostKey(ev_keyup, *bindings[i].key_var);
+        }
+        prev[i] = false;
+    }
+}
+
 void I_TouchDigitalInit(void)
 {
     memset(prev_pressed, 0, sizeof(prev_pressed));
+    memset(prev_pressed_menu, 0, sizeof(prev_pressed_menu));
+    prev_menuactive = false;
 }
 
 void I_UpdateTouchDigital(void)
 {
-    for (int i = 0; i < NUM_BINDINGS; i++)
+    const digital_binding_t* bindings;
+    int count;
+    boolean* prev;
+
+    if (menuactive != prev_menuactive)
     {
-        boolean now = I_TouchTrackerZoneIsPressed(g_bindings[i].zone_id);
-
-        if (now && !prev_pressed[i])
-        {
-            PostKey(ev_keydown, *g_bindings[i].key_var);
-        }
-        else if (!now && prev_pressed[i])
-        {
-            PostKey(ev_keyup, *g_bindings[i].key_var);
-        }
-
-        prev_pressed[i] = now;
+        I_OnMenuActiveChange();
     }
+
+    if (menuactive)
+    {
+        bindings = g_menu_bindings;
+        count = NUM_MENU_BINDINGS;
+        prev = prev_pressed_menu;
+    }
+    else
+    {
+        bindings = g_bindings;
+        count = NUM_BINDINGS;
+        prev = prev_pressed;
+    }
+
+    for (int i = 0; i < count; i++)
+    {
+        boolean now = I_TouchTrackerZoneIsPressed(bindings[i].zone_id);
+
+        if (now && !prev[i])
+        {
+            PostKey(ev_keydown, *bindings[i].key_var);
+        }
+        else if (!now && prev[i])
+        {
+            PostKey(ev_keyup, *bindings[i].key_var);
+        }
+
+        prev[i] = now;
+    }
+    prev_menuactive = menuactive;
 }
