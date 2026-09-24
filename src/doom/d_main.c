@@ -1445,6 +1445,8 @@ static void G_CheckDemoStatusAtExit (void)
 
 static const char *const loadparms[] = {"-file", "-merge", NULL};
 
+static boolean GetDoomMenuActive(void) { return menuactive; }
+
 //
 // D_DoomMain
 //
@@ -2129,6 +2131,7 @@ void D_DoomMain (void)
     I_InitTimer();
     I_InitJoystick();
     I_InitTouch();
+    I_SetTouchMenuActiveCallback(GetDoomMenuActive); // Register menuactive callback after initializing Touch
     I_InitSound(doom);
     I_InitMusic();
 

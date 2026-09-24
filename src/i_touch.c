@@ -7,10 +7,21 @@
 #include "i_touch.h"
 
 int usetouch = 1;
+static touch_menuactive_callback_t menuactive_callback = NULL;
 
 void I_BindTouchVariables(void)
 {
     M_BindIntVariable("use_touch", &usetouch);
+}
+
+void I_SetTouchMenuActiveCallback(touch_menuactive_callback_t func)
+{
+    menuactive_callback = func;
+}
+
+boolean I_IsMenuActive(void)
+{
+    return menuactive_callback ? menuactive_callback() : false;
 }
 
 void I_InitTouch(void)

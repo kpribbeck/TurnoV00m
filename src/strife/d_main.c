@@ -186,7 +186,7 @@ void D_ProcessEvents (void)
     }
 }
 
-
+static boolean GetStrifeMenuActive(void) { return menuactive; }
 
 
 //
@@ -2269,6 +2269,8 @@ void D_DoomMain (void)
         DEH_printf("I_Init: Setting up machine state.\n");
     I_CheckIsScreensaver();
     I_InitJoystick();
+    I_InitTouch();
+    I_SetTouchMenuActiveCallback(GetStrifeMenuActive);
     D_IntroTick(); // [STRIFE]
 
     D_IntroTick(); // [STRIFE]

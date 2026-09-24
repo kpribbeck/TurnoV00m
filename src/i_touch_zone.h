@@ -76,6 +76,12 @@ typedef enum
 
 } touch_input_type_t;
 
+typedef enum
+{
+    TMODE_GAME,
+    TMODE_MENU
+} touch_mode_t;
+
 
 // ---------------------------------------------------------------------------
 // Zone descriptor
@@ -87,6 +93,7 @@ typedef struct
 {
     touch_zone_id_t    id;          // must match this zone's index in the table
     touch_input_type_t input_type;
+    touch_mode_t       mode;        // either game or menu
 
     // Normalized screen-space rectangle, origin at top-left corner.
     // All values in [0.0, 1.0].  Half-open interval: [x, x+w) × [y, y+h).

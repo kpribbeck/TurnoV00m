@@ -318,6 +318,8 @@ static boolean D_GrabMouseCallback(void)
     return (gamestate == GS_LEVEL) && !advancedemo && !demoplayback;
 }
 
+static boolean GetHexenMenuActive(void) { return MenuActive; }
+
 // Message displayed when quitting Hexen
 
 static void D_HexenQuitMessage(void)
@@ -626,6 +628,8 @@ void D_DoomMain(void)
     I_CheckIsScreensaver();
     I_InitTimer();
     I_InitJoystick();
+    I_InitTouch();
+    I_SetTouchMenuActiveCallback(GetHexenMenuActive);
     I_InitSound(hexen);
     I_InitMusic();
 

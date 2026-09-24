@@ -76,6 +76,8 @@ void I_TouchTrackerFingerDown(const SDL_TouchFingerEvent *sdlevent)
     finger->oy = sdlevent->y;
     finger->x = sdlevent->x;
     finger->y = sdlevent->y;
+
+    printf("[touch] DOWN zone=%d at (%.3f,%.3f)\n", finger->zone_id, sdlevent->x, sdlevent->y);
 }
 
 void I_TouchTrackerFingerMotion(const SDL_TouchFingerEvent *sdlevent)

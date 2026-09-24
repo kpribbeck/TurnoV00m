@@ -92,6 +92,8 @@ void D_PageDrawer(void);
 void D_AdvanceDemo(void);
 boolean F_Responder(event_t * ev);
 
+static boolean GetHereticMenuActive(void) { return MenuActive; }
+
 //---------------------------------------------------------------------------
 //
 // PROC D_ProcessEvents
@@ -1416,6 +1418,9 @@ void D_DoomMain(void)
     I_CheckIsScreensaver();
     I_InitJoystick();
     IncThermo();
+
+    I_InitTouch();
+    I_SetTouchMenuActiveCallback(GetHereticMenuActive);
 
     tprintf(DEH_String("S_Init: Setting up sound.\n"), 1);
     S_Init();

@@ -42,7 +42,7 @@ static const digital_binding_t g_menu_bindings[] =
 {
     { TZONE_MENU_UP,        &key_menu_up      },
     { TZONE_MENU_DOWN,      &key_menu_down    },
-    { TZONE_MENU_CONFIRM,   &key_menu_confirm },
+    { TZONE_MENU_CONFIRM,   &key_menu_forward },
     { TZONE_MENU_BACK,      &key_menu_back    },
 };
 
@@ -60,11 +60,10 @@ static const digital_binding_t g_menu_bindings[] =
 // and falling edges that Doom's event model expects.
 // ---------------------------------------------------------------------------
 
-extern boolean menuactive;
 
 static boolean prev_pressed[NUM_BINDINGS];
 static boolean prev_pressed_menu[NUM_MENU_BINDINGS];
-static boolean prev_menuactive;
+static boolean prev_menu_active;
 
 
 // Internal helpers
@@ -100,7 +99,7 @@ static void I_OnMenuActiveChange(void)
     // If we go from Menu -> Game, then we need to clear Menu bindings
 
     // From Game to Menu
-    if (menuactive)
+    if (I_IsMenuActive())
     {
         bindings = g_bindings;
         count = NUM_BINDINGS;
@@ -128,7 +127,7 @@ void I_TouchDigitalInit(void)
 {
     memset(prev_pressed, 0, sizeof(prev_pressed));
     memset(prev_pressed_menu, 0, sizeof(prev_pressed_menu));
-    prev_menuactive = false;
+    prev_menu_active = false;
 }
 
 void I_UpdateTouchDigital(void)
@@ -136,13 +135,14 @@ void I_UpdateTouchDigital(void)
     const digital_binding_t* bindings;
     int count;
     boolean* prev;
+    boolean menu_active = I_IsMenuActive();
 
-    if (menuactive != prev_menuactive)
+    if (menu_active != prev_menu_active)
     {
         I_OnMenuActiveChange();
     }
 
-    if (menuactive)
+    if (menu_active)
     {
         bindings = g_menu_bindings;
         count = NUM_MENU_BINDINGS;
@@ -170,5 +170,5 @@ void I_UpdateTouchDigital(void)
 
         prev[i] = now;
     }
-    prev_menuactive = menuactive;
+    prev_menu_active = menu_active;
 }

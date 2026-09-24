@@ -9,8 +9,9 @@
 //   out-of-bounds error at startup.
 //
 
-#include "i_touch_zone.h"
 #include "i_system.h"   // I_Error
+#include "i_touch.h"
+#include "i_touch_zone.h"
 
 
 // ---------------------------------------------------------------------------
@@ -55,9 +56,9 @@
 #define TZ_PAUSE_L      0.86f   // left edge of pause button
 
 #define TZ_MENU_UP_X    0.1f
-#define TZ_MENU_UP_Y    0.5f
-#define TZ_MENU_UP_H    0.25f
-#define TZ_MENU_UP_W    0.2f
+#define TZ_MENU_UP_Y    0.4f
+#define TZ_MENU_UP_H    0.3f
+#define TZ_MENU_UP_W    0.3f
 
 
 // ---------------------------------------------------------------------------
@@ -79,6 +80,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
     {
         .id         = TZONE_MOVE,
         .input_type = TINPUT_ANALOG,
+        .mode       = TMODE_GAME,
         .x          = 0.00f,
         .y          = TZ_TOP_H,
         .width          = TZ_MOVE_W,
@@ -90,6 +92,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
     {
         .id         = TZONE_TURN,
         .input_type = TINPUT_ANALOG,
+        .mode       = TMODE_GAME,
         .x          = TZ_MOVE_W,
         .y          = TZ_TOP_H,
         .width          = TZ_TURN_R - TZ_MOVE_W,
@@ -103,6 +106,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
     {
         .id         = TZONE_FIRE,
         .input_type = TINPUT_BUTTON,
+        .mode       = TMODE_GAME,
         .x          = TZ_TURN_R,
         .y          = TZ_ACTION_Y,
         .width          = 1.00f - TZ_TURN_R,
@@ -114,6 +118,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
     {
         .id         = TZONE_USE,
         .input_type = TINPUT_BUTTON,
+        .mode       = TMODE_GAME,
         .x          = TZ_TURN_R,
         .y          = TZ_TOP_H,
         .width          = 1.00f - TZ_TURN_R,
@@ -125,6 +130,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
     {
         .id         = TZONE_WEAPON_PREV,
         .input_type = TINPUT_BUTTON,
+        .mode       = TMODE_GAME,
         .x          = 0.00f,
         .y          = 0.00f,
         .width          = TZ_WPREV_W,
@@ -136,6 +142,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
     {
         .id         = TZONE_WEAPON_NEXT,
         .input_type = TINPUT_BUTTON,
+        .mode       = TMODE_GAME,
         .x          = TZ_WPREV_W,
         .y          = 0.00f,
         .width          = TZ_WNEXT_W,
@@ -147,6 +154,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
     {
         .id         = TZONE_MAP,
         .input_type = TINPUT_BUTTON,
+        .mode       = TMODE_GAME,
         .x          = TZ_MAP_L,
         .y          = 0.00f,
         .width          = TZ_PAUSE_L - TZ_MAP_L,
@@ -158,6 +166,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
     {
         .id         = TZONE_PAUSE,
         .input_type = TINPUT_BUTTON,
+        .mode       = TMODE_GAME,
         .x          = TZ_PAUSE_L,
         .y          = 0.00f,
         .width          = 1.00f - TZ_PAUSE_L,
@@ -169,6 +178,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
     {
         .id         = TZONE_MENU_UP,
         .input_type = TINPUT_BUTTON,
+        .mode       = TMODE_MENU,
         .x          = TZ_MENU_UP_X,
         .y          = TZ_MENU_UP_Y,
         .width          = TZ_MENU_UP_W,
@@ -180,6 +190,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
     {
         .id         = TZONE_MENU_DOWN,
         .input_type = TINPUT_BUTTON,
+        .mode       = TMODE_MENU,
         .x          = TZ_MENU_UP_X,
         .y          = TZ_MENU_UP_Y + TZ_MENU_UP_H,
         .width          = TZ_MENU_UP_W,
@@ -191,6 +202,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
     {
         .id         = TZONE_MENU_CONFIRM,
         .input_type = TINPUT_BUTTON,
+        .mode       = TMODE_MENU,
         .x          = 1 - TZ_MENU_UP_X - TZ_MENU_UP_W,
         .y          = TZ_MENU_UP_Y,
         .width          = TZ_MENU_UP_W,
@@ -202,6 +214,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
     {
         .id         = TZONE_MENU_BACK,
         .input_type = TINPUT_BUTTON,
+        .mode       = TMODE_MENU,
         .x          = 1 - TZ_MENU_UP_X - TZ_MENU_UP_W,
         .y          = TZ_MENU_UP_Y + TZ_MENU_UP_H,
         .width          = TZ_MENU_UP_W,
@@ -217,9 +230,13 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
 
 touch_zone_id_t I_TouchHitTest(float x, float y)
 {
+    touch_mode_t target_mode = I_IsMenuActive() ? TMODE_MENU : TMODE_GAME;
+
     for (int i = 0; i < TZONE_COUNT; i++)
     {
         const touch_zone_t *zone = &g_zones[i];
+        
+        if (zone->mode != target_mode) continue;
 
         // Half-open interval: [zone->x, zone->x + zone->width) × [zone->y, zone->y + zone->height).
         // A point on the shared edge between two adjacent zones falls into
@@ -302,11 +319,18 @@ void I_TouchValidateLayout(void)
     {
         for (int j = i + 1; j < TZONE_COUNT; j++)
         {
+            int x_overlap;
+            int y_overlap;
+
             const touch_zone_t *a = &g_zones[i];
             const touch_zone_t *b = &g_zones[j];
 
-            int x_overlap = (a->x < b->x + b->width) && (b->x < a->x + a->width);
-            int y_overlap = (a->y < b->y + b->height) && (b->y < a->y + a->height);
+            // Don't check zones that don't belong to the same mode
+            // These will never be active at the same time
+            if (a->mode != b->mode) continue;
+
+            x_overlap = (a->x < b->x + b->width) && (b->x < a->x + a->width);
+            y_overlap = (a->y < b->y + b->height) && (b->y < a->y + a->height);
 
             if (x_overlap && y_overlap)
                 I_Error("I_TouchValidateLayout: zones '%s' and '%s' overlap — "
