@@ -39,6 +39,7 @@
 #include "i_input.h"
 #include "i_joystick.h"
 #include "i_touch.h"
+#include "i_touch_overlay.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "i_video.h"
@@ -929,6 +930,8 @@ void I_FinishUpdate (void)
     }
 #endif
 
+    I_TouchOverlayDraw(); // draw the on-screen gamepad on top of the frame
+
     // Draw!
 
     SDL_RenderPresent(renderer);
@@ -1792,6 +1795,11 @@ void I_ToggleVsync (void)
 #else
     I_ReInitGraphics(REINIT_RENDERER | REINIT_TEXTURES | REINIT_ASPECTRATIO);
 #endif
+}
+
+SDL_Renderer *I_GetRenderer(void)
+{
+    return renderer;
 }
 
 void I_InitGraphics(void)

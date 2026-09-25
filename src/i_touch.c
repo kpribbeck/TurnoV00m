@@ -14,6 +14,7 @@ static boolean prev_menu_active;
 void I_BindTouchVariables(void)
 {
     M_BindIntVariable("use_touch", &usetouch);
+    // TODO: Bind overlay variable alpha
 }
 
 void I_SetTouchMenuActiveCallback(touch_menuactive_callback_t func)
@@ -35,6 +36,7 @@ void I_InitTouch(void)
     I_TouchTrackerInit();
     I_TouchDigitalInit();
     I_TouchAnalogInit();
+    I_TouchOverlayInit();
     I_AtExit(I_TouchTrackerShutdown, true);
 
     prev_menu_active = false;
