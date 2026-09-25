@@ -63,7 +63,6 @@ static const digital_binding_t g_menu_bindings[] =
 
 static boolean prev_pressed[NUM_BINDINGS];
 static boolean prev_pressed_menu[NUM_MENU_BINDINGS];
-static boolean prev_menu_active;
 
 
 // Internal helpers
@@ -88,7 +87,7 @@ static void PostKey(evtype_t type, int key)
 //                                 API
 /////////////////////////////////////////////////////////////////////////////
 
-static void I_OnMenuActiveChange(void)
+void I_TouchDigitalReleaseAll(void)
 {
     const digital_binding_t* bindings;
     int count;
@@ -127,7 +126,6 @@ void I_TouchDigitalInit(void)
 {
     memset(prev_pressed, 0, sizeof(prev_pressed));
     memset(prev_pressed_menu, 0, sizeof(prev_pressed_menu));
-    prev_menu_active = false;
 }
 
 void I_UpdateTouchDigital(void)
@@ -136,11 +134,6 @@ void I_UpdateTouchDigital(void)
     int count;
     boolean* prev;
     boolean menu_active = I_IsMenuActive();
-
-    if (menu_active != prev_menu_active)
-    {
-        I_OnMenuActiveChange();
-    }
 
     if (menu_active)
     {
@@ -170,5 +163,4 @@ void I_UpdateTouchDigital(void)
 
         prev[i] = now;
     }
-    prev_menu_active = menu_active;
 }

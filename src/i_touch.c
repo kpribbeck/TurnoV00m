@@ -4,10 +4,12 @@
 #include "i_touch_tracker.h"
 #include "i_touch_zone.h"
 #include "i_touch_digital.h"
+#include "i_touch_analog.h"
 #include "i_touch.h"
 
 int usetouch = 1;
 static touch_menuactive_callback_t menuactive_callback = NULL;
+static boolean prev_menu_active;
 
 void I_BindTouchVariables(void)
 {
@@ -32,17 +34,31 @@ void I_InitTouch(void)
     I_TouchValidateLayout();
     I_TouchTrackerInit();
     I_TouchDigitalInit();
+    I_TouchAnalogInit();
     I_AtExit(I_TouchTrackerShutdown, true);
+
+    prev_menu_active = false;
     // TODO: Overlay render init
     // config variable binding
 }
 
 void I_UpdateTouch(void)
 {
+    boolean menu_active;
+
     if (!usetouch) return;
+    menu_active = I_IsMenuActive();
+
+    if (menu_active != prev_menu_active)
+    {
+        I_TouchAnalogReleaseAll();
+        I_TouchDigitalReleaseAll();
+    }
 
     I_UpdateTouchDigital();
-    // TODO: I_UpdateTouchAnalog();
+    I_UpdateTouchAnalog();
+
+    prev_menu_active = menu_active;
 }
 
 void I_HandleTouchEvent(const SDL_Event* sdlevent)

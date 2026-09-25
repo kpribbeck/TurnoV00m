@@ -40,14 +40,20 @@
 // Height of the top button bar (weapon prev/next, map, pause).
 #define TZ_TOP_H        0.15f
 
-// Right edge of the MOVE zone and left edge of the TURN zone.
-// MOVE spans [0.00, TZ_MOVE_W); TURN spans [TZ_MOVE_W, TZ_TURN_R).
+// Right edge of the MOVE zone
+// MOVE spans [0.00, TZ_MOVE_W);
 #define TZ_MOVE_W       0.35f
-#define TZ_TURN_R       0.70f   // right edge of TURN; left edge of action column
 
-// Y coordinate that splits the right action column into USE (above) and
-// FIRE (below).
-#define TZ_ACTION_Y     0.55f
+#define TZ_TURN_Y       0.60f
+// Left edge of the TURN zone. Spans [TZ_TURN_L, 0.00]
+#define TZ_TURN_L       0.65f
+#define TZ_TURN_W       0.70f   // right edge of TURN; left edge of action column
+
+#define TZ_ACTION_Y     0.40f
+#define TZ_FIRE_L       0.55f
+#define TZ_FIRE_W       0.20f
+#define TZ_FIRE_H       0.20f
+#define TZ_USE_L        TZ_FIRE_L + TZ_FIRE_W + 0.05f
 
 // Top-bar button widths.  Buttons start at x=0 (left) and x=TZ_MAP_L (right).
 #define TZ_WPREV_W      0.18f
@@ -93,10 +99,10 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
         .id         = TZONE_TURN,
         .input_type = TINPUT_ANALOG,
         .mode       = TMODE_GAME,
-        .x          = TZ_MOVE_W,
-        .y          = TZ_TOP_H,
-        .width          = TZ_TURN_R - TZ_MOVE_W,
-        .height          = 1.00f - TZ_TOP_H,
+        .x          = TZ_TURN_L,
+        .y          = TZ_TURN_Y,
+        .width          = 1.00f - TZ_TURN_L,
+        .height          = 1.00f - TZ_TURN_Y,
         .label      = "TURN"
     },
 
@@ -107,10 +113,10 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
         .id         = TZONE_FIRE,
         .input_type = TINPUT_BUTTON,
         .mode       = TMODE_GAME,
-        .x          = TZ_TURN_R,
+        .x          = TZ_FIRE_L,
         .y          = TZ_ACTION_Y,
-        .width          = 1.00f - TZ_TURN_R,
-        .height          = 1.00f - TZ_ACTION_Y,
+        .width          = TZ_FIRE_W,
+        .height          = TZ_FIRE_H,
         .label      = "FIRE"
     },
 
@@ -119,10 +125,10 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
         .id         = TZONE_USE,
         .input_type = TINPUT_BUTTON,
         .mode       = TMODE_GAME,
-        .x          = TZ_TURN_R,
-        .y          = TZ_TOP_H,
-        .width          = 1.00f - TZ_TURN_R,
-        .height          = TZ_ACTION_Y - TZ_TOP_H,
+        .x          = TZ_USE_L,
+        .y          = TZ_ACTION_Y,
+        .width          = TZ_FIRE_W,
+        .height          = TZ_FIRE_H,
         .label      = "USE"
     },
 
