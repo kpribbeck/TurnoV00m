@@ -83,6 +83,7 @@ set(GAME_SOURCE_FILES
     i_touch_tracker.c   i_touch_tracker.h
     i_touch_digital.c   i_touch_digital.h
     i_touch_analog.c    i_touch_analog.h
+    i_touch_overlay.c   i_touch_overlay.h
                         i_swap.h
     i_musicpack.c
     i_oplmusic.c

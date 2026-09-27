@@ -48,17 +48,18 @@ typedef enum
     TZONE_TURN        =  1,    // right thumb: horizontal turn + vertical look
 
     // Button zones (discrete press / release)
-    TZONE_FIRE        =  2,    // primary attack
-    TZONE_USE         =  3,    // open door / activate switch
-    TZONE_WEAPON_PREV =  4,    // cycle to previous weapon
-    TZONE_WEAPON_NEXT =  5,    // cycle to next weapon
-    TZONE_MAP         =  6,    // toggle automap
-    TZONE_PAUSE       =  7,    // pause / open menu
+    TZONE_SPRINT      =  2,
+    TZONE_FIRE        =  3,    // primary attack
+    TZONE_USE         =  4,    // open door / activate switch
+    TZONE_WEAPON_PREV =  5,    // cycle to previous weapon
+    TZONE_WEAPON_NEXT =  6,    // cycle to next weapon
+    TZONE_MAP         =  7,    // toggle automap
+    TZONE_PAUSE       =  8,    // pause / open menu
 
-    TZONE_MENU_UP     =  8,    // menu up direction
-    TZONE_MENU_DOWN   =  9,    // menu down direction
-    TZONE_MENU_CONFIRM=  10,   // menu confirm action
-    TZONE_MENU_BACK   =  11,   // menu back action
+    TZONE_MENU_UP     =  9,    // menu up direction
+    TZONE_MENU_DOWN   =  10,    // menu down direction
+    TZONE_MENU_CONFIRM=  11,   // menu confirm action
+    TZONE_MENU_BACK   =  12,   // menu back action
 
     TZONE_COUNT                // must remain last — equals the table length
 

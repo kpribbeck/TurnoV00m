@@ -5,5 +5,6 @@
 void I_TouchAnalogInit(void);
 void I_UpdateTouchAnalog(void);
 void I_TouchAnalogReleaseAll(void);
+void I_TouchAnalogBindVariables(void);
 
 #endif // I_TOUCH_ANALOG_H

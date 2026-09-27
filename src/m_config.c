@@ -521,6 +521,11 @@ static default_t	doom_defaults_list[] =
 
     CONFIG_VARIABLE_INT(use_touch),
 
+    CONFIG_VARIABLE_FLOAT(touch_move_threshold),
+    CONFIG_VARIABLE_FLOAT(touch_turn_deadzone),
+    CONFIG_VARIABLE_FLOAT(touch_turn_sensitivity),
+    CONFIG_VARIABLE_INT(touch_overlay_alpha),
+
     //!
     // If non-zero, joystick input is enabled.
     //

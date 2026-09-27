@@ -30,6 +30,7 @@ typedef struct
 
 static const digital_binding_t g_bindings[] =
 {
+    { TZONE_SPRINT,         &key_speed        },
     { TZONE_FIRE,           &key_fire         },
     { TZONE_USE,            &key_use          },
     { TZONE_WEAPON_PREV,    &key_prevweapon   },

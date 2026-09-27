@@ -5,6 +5,7 @@
 #include "i_touch_zone.h"
 #include "i_touch_digital.h"
 #include "i_touch_analog.h"
+#include "i_touch_overlay.h"
 #include "i_touch.h"
 
 int usetouch = 1;
@@ -14,7 +15,8 @@ static boolean prev_menu_active;
 void I_BindTouchVariables(void)
 {
     M_BindIntVariable("use_touch", &usetouch);
-    // TODO: Bind overlay variable alpha
+    I_TouchAnalogBindVariables();
+    I_TouchOverlayBindVariables();
 }
 
 void I_SetTouchMenuActiveCallback(touch_menuactive_callback_t func)
