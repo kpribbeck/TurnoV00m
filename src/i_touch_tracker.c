@@ -77,7 +77,7 @@ void I_TouchTrackerFingerDown(const SDL_TouchFingerEvent *sdlevent)
     finger->x = sdlevent->x;
     finger->y = sdlevent->y;
 
-    printf("[touch] DOWN zone=%d at (%.3f,%.3f)\n", finger->zone_id, sdlevent->x, sdlevent->y);
+    // printf("[touch] DOWN zone=%d at (%.3f,%.3f)\n", finger->zone_id, sdlevent->x, sdlevent->y);
 }
 
 void I_TouchTrackerFingerMotion(const SDL_TouchFingerEvent *sdlevent)
@@ -160,6 +160,37 @@ void I_TouchTrackerGetDeflection(touch_zone_id_t zone, float *out_dx, float *out
         {
             *out_dx = finger->x - finger->ox;
             *out_dy = finger->y - finger->oy;
+            return;
+        }
+    }
+}
+
+void I_TouchTrackerGetZoneLocalDeflection(touch_zone_id_t zone_id, float *out_dx, float *out_dy)
+{
+    const touch_zone_t * zone;
+    float zone_half_width;
+    float zone_half_height;
+    *out_dx = 0;
+    *out_dy = 0;
+
+    if (zone_id == TZONE_NONE)
+        return;
+
+    zone = I_TouchGetZone(zone_id);
+    zone_half_width = zone->width/2;
+    zone_half_height = zone->height/2;
+
+    for (int i = 0; i <= MAX_FINGERS; i++)
+    {
+        const touch_finger_t* finger = &tracked_fingers[i];
+
+        if (finger->active && finger->zone_id == zone_id)
+        {
+            *out_dx = (finger->x - (zone->x + zone_half_width))/zone_half_width;
+            *out_dy = (finger->y - (zone->y + zone_half_height))/zone_half_height;
+            // printf("[deflection] finger->x %f, finger->y %f\n", finger->x, finger->y);
+            // printf("[deflection] zone->x %f, zone->y %f - zone->width/2 %f, zone->height/2 %f\n", zone->x, zone->y, zone->width/2, zone->height/2);
+            // printf("[deflection] dx %f, dy %f\n", *out_dx, *out_dy);
             return;
         }
     }

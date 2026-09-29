@@ -49,7 +49,7 @@ static void DrawStick(SDL_Renderer *renderer, const touch_zone_t *zone, const SD
     float dx, dy;
     int cx, cy, half, off_x, off_y, reach;
 
-    I_TouchTrackerGetDeflection(zone->id, &dx, &dy);
+    I_TouchTrackerGetZoneLocalDeflection(zone->id, &dx, &dy);
 
     cx = rect->x + rect->w / 2;
     cy = rect->y + rect->h / 2;

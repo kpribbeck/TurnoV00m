@@ -54,10 +54,11 @@
 
 #define TZ_ACTION_Y     0.45f
 #define TZ_SPRINT_X     0.005f
-#define TZ_FIRE_L       0.67f
-#define TZ_FIRE_W       0.15f
+#define TZ_USE_L        0.67f
+#define TZ_USE_W        0.125f
+#define TZ_FIRE_L       TZ_USE_L + TZ_USE_W + 0.025f
+#define TZ_FIRE_W       0.175f
 #define TZ_FIRE_H       0.18f
-#define TZ_USE_L        TZ_FIRE_L + TZ_FIRE_W + 0.025f
 
 // Top-bar button widths.  Buttons start at x=0 (left) and x=TZ_MAP_L (right).
 #define TZ_WPREV_W      0.18f
@@ -143,7 +144,7 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
         .mode       = TMODE_GAME,
         .x          = TZ_USE_L,
         .y          = TZ_ACTION_Y,
-        .width          = TZ_FIRE_W,
+        .width          = TZ_USE_W,
         .height          = TZ_FIRE_H,
         .label      = "USE"
     },

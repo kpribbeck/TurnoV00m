@@ -65,3 +65,6 @@ GTAGS
 # clangd settings
 /.cache/clangd
 compile_commands.json
+
+# Distibution files
+dist/

@@ -19,10 +19,10 @@
 // ---------------------------------------------------------------------------
 
 
-static float touch_move_threshold = 0.06f;
+static float touch_move_threshold = 0.15f;
 
-static float touch_turn_deadzone = 0.02f;
-static float touch_turn_sensitivity = 900.f;
+static float touch_turn_deadzone = 0.15f;
+static float touch_turn_sensitivity = 220.f;
 
 // ---------------------------------------------------------------------------
 // MOVE: virtual d-pad
@@ -94,7 +94,7 @@ static void UpdateMove(void)
     float dx, dy;
     float deflection[2];
 
-    I_TouchTrackerGetDeflection(TZONE_MOVE, &dx, &dy);
+    I_TouchTrackerGetZoneLocalDeflection(TZONE_MOVE, &dx, &dy);
     deflection[0] = dx;
     deflection[1] = dy;
 
@@ -123,7 +123,7 @@ static void UpdateTurn(void)
     float dx, dy;
     int turn;
 
-    I_TouchTrackerGetDeflection(TZONE_TURN, &dx, &dy);
+    I_TouchTrackerGetZoneLocalDeflection(TZONE_TURN, &dx, &dy);
     (void)dy; // TURN is horizontal only
 
     if (dx > touch_turn_deadzone || dx < -touch_turn_deadzone)

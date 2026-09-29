@@ -30,13 +30,13 @@ typedef struct
 
 static const digital_binding_t g_bindings[] =
 {
-    { TZONE_SPRINT,         &key_speed        },
-    { TZONE_FIRE,           &key_fire         },
-    { TZONE_USE,            &key_use          },
-    { TZONE_WEAPON_PREV,    &key_prevweapon   },
-    { TZONE_WEAPON_NEXT,    &key_nextweapon   },
-    { TZONE_MAP,            &key_map_toggle   },
-    { TZONE_PAUSE,          &key_pause        },
+    { TZONE_SPRINT,         &key_speed         },
+    { TZONE_FIRE,           &key_fire          },
+    { TZONE_USE,            &key_use           },
+    { TZONE_WEAPON_PREV,    &key_prevweapon    },
+    { TZONE_WEAPON_NEXT,    &key_nextweapon    },
+    { TZONE_MAP,            &key_map_toggle    },
+    { TZONE_PAUSE,          &key_menu_activate },
 };
 
 static const digital_binding_t g_menu_bindings[] =

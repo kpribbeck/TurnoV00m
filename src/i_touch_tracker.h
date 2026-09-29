@@ -62,6 +62,9 @@ boolean I_TouchTrackerZoneIsPressed(touch_zone_id_t zone);
 // Used by the Analog Handler to compute ev_mouse deltas each tic.
 void I_TouchTrackerGetDeflection(touch_zone_id_t zone, float* out_dx, float* out_dy);
 
+// Gets finger deflection from the zone's center, instead of finger initial position
+void I_TouchTrackerGetZoneLocalDeflection(touch_zone_id_t zone, float* out_dx, float* out_dy);
+
 // Returns a read-only pointer to the full finger table (MAX_FINGERS slots).
 // Slots where active == false should be skipped.
 // Used by the Overlay Renderer to iterate active touches.
