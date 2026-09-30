@@ -73,6 +73,14 @@ static void PostKey(evtype_t type, int key)
 {
     event_t event;
 
+    // 0 means "no key bound", and every unbound action shares it
+    // (key_reverse, key_togglenovert, ...). Posting it would fire all of
+    // them at once, e.g. a 180 degree turn on every weapon switch.
+    if (key == 0)
+    {
+        return;
+    }
+
     // data1 is the Doom key code G_Responder indexes gamekeydown[] with.
     // For ev_keydown, vanilla sets data2 = the same key and data3 = typed char.
     // A Synthetic control press has no typed char, so data3 stays 0.
@@ -128,6 +136,19 @@ void I_TouchDigitalInit(void)
 {
     memset(prev_pressed, 0, sizeof(prev_pressed));
     memset(prev_pressed_menu, 0, sizeof(prev_pressed_menu));
+
+    // The weapon cycle buttons need real keys, but Doom leaves them unbound
+    // by default. '[' and ']' are free in Doom's default layout (',' and '.'
+    // would collide with strafe left/right). This runs after the config is
+    // loaded, so a binding saved in the config is kept.
+    if (key_prevweapon == 0)
+    {
+        key_prevweapon = '[';
+    }
+    if (key_nextweapon == 0)
+    {
+        key_nextweapon = ']';
+    }
 }
 
 void I_UpdateTouchDigital(void)

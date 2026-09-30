@@ -64,6 +64,12 @@ static void PostKey(evtype_t type, int key)
 {
     event_t event;
 
+    // 0 means "no key bound" - see PostKey in i_touch_digital.c.
+    if (key == 0)
+    {
+        return;
+    }
+
     event.type = type;
     event.data1 = key;
     event.data2 = (type == ev_keydown) ? key : 0;
