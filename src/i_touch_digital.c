@@ -45,6 +45,7 @@ static const digital_binding_t g_menu_bindings[] =
     { TZONE_MENU_DOWN,      &key_menu_down    },
     { TZONE_MENU_CONFIRM,   &key_menu_forward },
     { TZONE_MENU_BACK,      &key_menu_back    },
+    { TZONE_RESUME_GAME,    &key_menu_activate },
 };
 
 

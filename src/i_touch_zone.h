@@ -60,6 +60,7 @@ typedef enum
     TZONE_MENU_DOWN   =  10,    // menu down direction
     TZONE_MENU_CONFIRM=  11,   // menu confirm action
     TZONE_MENU_BACK   =  12,   // menu back action
+    TZONE_RESUME_GAME =  13,   // to close the menu and resume the game
 
     TZONE_COUNT                // must remain last — equals the table length
 

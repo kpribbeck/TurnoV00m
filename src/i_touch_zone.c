@@ -244,6 +244,18 @@ static const touch_zone_t g_zones[TZONE_COUNT] =
         .height          = TZ_MENU_UP_H,
         .label      = "PAUSE"
     },
+
+    [TZONE_RESUME_GAME] =
+    {
+        .id         = TZONE_RESUME_GAME,
+        .input_type = TINPUT_BUTTON,
+        .mode       = TMODE_MENU,
+        .x          = TZ_PAUSE_L,
+        .y          = 0.00f,
+        .width      = 1.00f - TZ_PAUSE_L,
+        .height     = TZ_TOP_H,
+        .label      = "RESUME"
+    },
 };
 
 
