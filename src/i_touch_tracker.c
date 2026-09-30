@@ -9,7 +9,7 @@
 
 // -------------- State ---------------
 
-static touch_finger_t tracked_fingers[MAX_FINGERS];\
+static touch_finger_t tracked_fingers[MAX_FINGERS];
 
 // -------------- Helpers -------------
 
@@ -77,7 +77,7 @@ void I_TouchTrackerFingerDown(const SDL_TouchFingerEvent *sdlevent)
     finger->x = sdlevent->x;
     finger->y = sdlevent->y;
 
-    // printf("[touch] DOWN zone=%d at (%.3f,%.3f)\n", finger->zone_id, sdlevent->x, sdlevent->y);
+    printf("[touch] DOWN zone=%d at (%.3f,%.3f)\n", finger->zone_id, sdlevent->x, sdlevent->y);
 }
 
 void I_TouchTrackerFingerMotion(const SDL_TouchFingerEvent *sdlevent)
@@ -138,7 +138,7 @@ boolean I_TouchTrackerZoneIsPressed(touch_zone_id_t zone)
 
     for (int i = 0; i <= MAX_FINGERS; i++)
     {
-        if(tracked_fingers->active && tracked_fingers->zone_id == zone)
+        if(tracked_fingers[i].active && tracked_fingers[i].zone_id == zone)
             return true;
     }
     return false;

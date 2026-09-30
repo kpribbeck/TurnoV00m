@@ -42,6 +42,11 @@ void D_DoomMain (void);
 
 int main(int argc, char **argv)
 {
+    // Unbuffered stdout, so printf output shows up immediately when stdout
+    // is a pipe (e.g. MSYS2/Git Bash terminals) instead of only at exit.
+    // _IOLBF would not help: the Windows C runtime treats it as full buffering.
+    setvbuf(stdout, NULL, _IONBF, 0);
+
     // save arguments
 
     myargc = argc;

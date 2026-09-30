@@ -19,10 +19,10 @@
 // ---------------------------------------------------------------------------
 
 
-static float touch_move_threshold = 0.15f;
+static float touch_move_threshold = 0.09f;
 
-static float touch_turn_deadzone = 0.15f;
-static float touch_turn_sensitivity = 220.f;
+static float touch_turn_deadzone = 0.09f;
+static float touch_turn_sensitivity = 175.f;
 
 // ---------------------------------------------------------------------------
 // MOVE: virtual d-pad
