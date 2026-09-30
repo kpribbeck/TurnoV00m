@@ -1426,7 +1426,7 @@ static void G_ReadGameParms (void)
 static void G_CrispyScreenShot()
 {
     // [crispy] increase screenshot filename limit
-    V_ScreenShot("DOOM%04i.%s");
+    V_ScreenShot("turnov00m%04i.%s");
     if (gamestate == GS_LEVEL)
         players[consoleplayer].message = DEH_String("screen shot");
     if (crispy->screenshot == 2)

@@ -35,7 +35,15 @@ $UcrtBin = "C:\msys64\ucrt64\bin"
 
 # Optional extras (copied only if they exist).
 $TouchAssetsDir = "assets\touch"
-$ConfigFile     = "dist-assets\crispy-doom.cfg"
+$ConfigFile     = "dist-assets\turnov00m.cfg"
+
+# The exe carries its icon embedded in its resources, so a plain double-click
+# shows the right icon and auto-detects TurnoV00m.WAD sitting beside it - no
+# launcher needed. Optionally also ship the standalone .ico (handy if you want
+# to make a desktop shortcut on the totem, or set a custom folder icon). Off
+# by default: leave it $false for a clean exe+DLLs+WAD folder.
+$ShipIcon  = $false
+$IconFile  = "data\turno-v00m.ico"
 
 # Output.
 $DistRoot = "dist"
@@ -215,6 +223,18 @@ if (Test-Path $ConfigFile) {
     Write-Host "  no config file ($ConfigFile) - totem writes its own on first run"
 }
 
+# 6. Standalone icon file (optional).
+if ($ShipIcon) {
+    if (Test-Path $IconFile) {
+        Copy-Item $IconFile $Dest
+        Write-Host "  copied $([System.IO.Path]::GetFileName($IconFile))"
+    } else {
+        Write-Warning "icon not found at '$IconFile' - skipping (exe still has its embedded icon)."
+    }
+} else {
+    Write-Host "  not shipping standalone .ico (`$ShipIcon = `$false; exe icon is embedded)"
+}
+
 # --------------------------------------------------------------------------
 # Summary
 # --------------------------------------------------------------------------
@@ -225,6 +245,9 @@ Write-Host "  folder: $Dest"
 Write-Host ""
 Write-Host "Contents:"
 Get-ChildItem $Dest | ForEach-Object { Write-Host "    $($_.Name)" }
+Write-Host ""
+Write-Host "Launch: double-click $ExeName. Crispy auto-detects TurnoV00m.WAD beside"
+Write-Host "it, and the icon is embedded in the exe - no launcher needed."
 Write-Host ""
 Write-Host "Next: VALIDATE on a clean Windows PC that never had MSYS2 before"
 Write-Host "trusting it on the totem, then copy the '$DistName' folder over and run."

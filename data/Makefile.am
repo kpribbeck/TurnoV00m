@@ -3,6 +3,8 @@ EXTRA_DIST=              \
         README           \
         doom.ico         \
         doom.png         \
+        turno-v00m.ico   \
+        turno-v00m.png   \
         heretic.ico      \
         heretic.png      \
         hexen.ico        \

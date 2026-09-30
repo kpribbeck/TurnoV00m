@@ -30,9 +30,11 @@
 #include "m_misc.h"
 #include "w_wad.h"
 #include "z_zone.h"
+#include "SDL.h"
 
 static const iwad_t iwads[] =
 {
+    { "turnov00m.wad", doom,     retail,     "TurnoV00m" }, // zeros, not O's: must match the shipped TurnoV00m.WAD
     { "doom2.wad",    doom2,     commercial, "Doom II" },
     { "plutonia.wad", pack_plut, commercial, "Final Doom: Plutonia Experiment" },
     { "tnt.wad",      pack_tnt,  commercial, "Final Doom: TNT: Evilution" },
@@ -799,6 +801,19 @@ static void BuildIWADDirList(void)
     // Next check the directory where the executable is located. This might
     // be different from the current directory.
     AddIWADDir(M_DirName(myargv[0]));
+
+    // Also add the executable's real directory as reported by the OS.
+    // argv[0] and the current directory both depend on how the game was
+    // launched (e.g. a shortcut with a different "Start in" folder), so
+    // this keeps the WAD beside the exe findable in every case.
+    {
+        char *basepath = SDL_GetBasePath();
+        if (basepath != NULL)
+        {
+            // Not freed: AddIWADDir keeps the pointer for the program's life.
+            AddIWADDir(basepath);
+        }
+    }
 
     // Add DOOMWADDIR if it is in the environment
     env = M_getenv("DOOMWADDIR");

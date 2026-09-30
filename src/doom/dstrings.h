@@ -27,7 +27,7 @@
 #include "d_englsh.h"
 
 // Misc. other strings.
-#define SAVEGAMENAME	"doomsav"
+#define SAVEGAMENAME	"turnov00msav"
 
 
 // QuitDOOM messages

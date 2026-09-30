@@ -1,4 +1,4 @@
-1 ICON "@top_srcdir@/data/doom.ico"
+1 ICON "@top_srcdir@/data/turno-v00m.ico"
 
 #include <winuser.h>
 

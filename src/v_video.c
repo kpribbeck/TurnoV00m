@@ -1274,7 +1274,7 @@ void WritePNGfile(char *filename, pixel_t *data,
 void V_ScreenShot(const char *format)
 {
     int i;
-    char lbmname[16]; // haleyjd 20110213: BUG FIX - 12 is too small!
+    char lbmname[32]; // haleyjd 20110213: BUG FIX - 12 is too small! (32 fits "turnov00m0000.png")
     const char *ext;
     
     // find a file name to save it to
