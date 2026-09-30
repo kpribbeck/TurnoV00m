@@ -39,3 +39,11 @@ The WAD files live elsewhere, so pass the IWAD path explicitly with `-iwad`:
 ```
 
 Any IWAD works: `doom1.wad` (shareware), `doom.wad`, `doom2.wad`, or `freedoom1.wad`.
+
+## Package distributable
+
+To build the distributable you can just run the make-dist.ps1 script. This will create a dist folder containing the final TurnoV00m directory with the self contained .exe and files. This directory can then be compressed to a zip file and distributed to any pc or totem and is ready to run.
+
+```
+./make-dist.ps1
+```

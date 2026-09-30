@@ -344,7 +344,7 @@ void I_Error (const char *error, ...)
     if (exit_gui_popup && !I_ConsoleStdout())
     {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-                                 PACKAGE_STRING, msgbuf, NULL);
+                                 "TurnoV00m", msgbuf, NULL);
     }
 
     // abort();

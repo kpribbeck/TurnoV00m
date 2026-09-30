@@ -604,7 +604,7 @@ void D_DoomLoop (void)
 
     main_loop_started = true;
 
-    I_SetWindowTitle(gamedescription);
+    I_SetWindowTitle("TurnoV00m");
     I_GraphicsCheckCommandLine();
     I_SetGrabMouseCallback(D_GrabMouseCallback);
     I_RegisterWindowIcon(doom_icon_data, doom_icon_w, doom_icon_h);

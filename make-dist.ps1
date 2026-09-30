@@ -1,13 +1,17 @@
 <#
     make-dist.ps1  -  assemble a portable, ready-to-ship folder for the totem.
 
-    Produces  dist\turnovoom\  containing:
+    Produces  dist\TurnoV00m\  containing:
         - the game exe
         - EVERY MinGW/SDL DLL it needs (resolved recursively from the PE
           import tables, using only PowerShell - no ntldd, no MSYS2 tools)
         - the IWAD
         - the touch\ PNG assets (if present)
         - a config file (if present)
+        - the standalone .ico (only if $ShipIcon is on)
+
+    make-dist.sh does the same from the MSYS2 UCRT64 shell - keep the two
+    in sync.
 
     Copy that one folder to the totem and run the exe. No installer.
 

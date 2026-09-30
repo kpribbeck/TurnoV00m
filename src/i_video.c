@@ -1174,17 +1174,14 @@ void I_SetWindowTitle(const char *title)
 }
 
 //
-// Call the SDL function to set the window title, based on 
-// the title set with I_SetWindowTitle.
+// Call the SDL function to set the window title, based on
+// the title set with I_SetWindowTitle. Used as-is, without the
+// " - Crispy Doom x.y.z" suffix, so the window reads just "TurnoV00m".
 //
 
 void I_InitWindowTitle(void)
 {
-    char *buf;
-
-    buf = M_StringJoin(window_title, " - ", PACKAGE_STRING, NULL);
-    SDL_SetWindowTitle(screen, buf);
-    free(buf);
+    SDL_SetWindowTitle(screen, window_title);
 }
 
 void I_RegisterWindowIcon(const unsigned int *icon, int width, int height)
